@@ -1,1 +1,23 @@
 version: '3.7'
+
+services:
+  wordpress:
+    image: wordpress:php7.4-apache
+    port:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: root
+      WORDPRESS_DB_NAME: collectors_store_db
+    links:
+      - mysql:myslq
+
+  mysql:
+    image:  mysql:8.0.28
+    command:  --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: collectors_store_db
+      MYSQL_ROOT_PASSWORD: root
+    columes:
+      - ~/docker/mysql-data:/var/lib/mysql
